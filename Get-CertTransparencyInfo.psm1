@@ -1,9 +1,9 @@
 #
 # Created by: lucas.cueff[at]lucas-cueff.com
 #
-# Released on: 01/2018
+# Released on: 07/2024
 #
-# v0.4.0: fix json request with new crt.sh website version
+# v0.4.1: fix min_entry_timestamp (LR)
 #
 #'(c) 2018 lucas-cueff.com - Distributed under Artistic Licence 2.0 (https://opensource.org/licenses/artistic-license-2.0).'
 
@@ -183,8 +183,11 @@ Function Get-CertTransparencyInfo {
 			$tmpobj.name_value = $data.name_value
 			$tmpobj.issuer_name = $data.issuer_name
 			$tmpobj.not_before = get-date $data.not_before
-			$tmpobj.min_entry_timestamp = get-date $data.min_entry_timestamp
-			$tmpobj.Cli_online_obj_url = "$($crtsh)?id=$($data.min_cert_id)"
+			try {
+   				$tmpobj.min_entry_timestamp = get-date $data.min_entry_timestamp
+       			} catch {
+	  		}
+       			$tmpobj.Cli_online_obj_url = "$($crtsh)?id=$($data.min_cert_id)"
 			$tmpobj.Cli_online_certificate_url = "$($crtsh)?d=$($data.min_cert_id)"
 			if ($advsearch) {$tmpobj.Cli_adv_search = $advsearch}
 			$tmpobj.Cli_search_request = $SearchInfo
